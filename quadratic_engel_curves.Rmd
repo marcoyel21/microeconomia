@@ -1,0 +1,584 @@
+---
+title: "Quadratic Engel Curves and Consumer Demand"
+subtitle: "Microeconomía Aplicada"
+author: "Samantha Cervantes y Marco Ramos"
+date: "2020"
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# ¿Cuál es el problema de Banks, Blundell y Lewbel?
+--
+<br>
+Existe una tensión entre estimar curvas de demanda realistas y ser consistente con la teoría microeconómica.
+
+--
+
+El resolverla puede mejorar nuestros análisis de bienestar sin perder las herramientas micro.
+
+--
+
+Dilema:
+
+--
+
+.pull-left[
+¿debemos realizar una estimación fiel a los datos?
+
+- estimación no paramétrica
+- me puedo ir por la libre (Kernel, n interacciones, rango n)
+- a costa a costa de no adecuarlas a una estructura derivada de utilidad por lo que pierdo la posibilidad de usar las herramientas micro]
+
+--
+
+.pull-right[
+¿o una estimación fiel a la teoría?
+- consistente con teoría microeconómica y los avances en microeconometría
+
+- a costa de realismo]
+
+---
+# Recapitulemos
+
+--
+
+Recordemos las curvas de Engel
+
+--
+
+```{r, message=FALSE, warning=FALSE, out.width = "50%"}
+library(ggplot2)
+fun.1 <- function(x) x
+fun.2 <- function(x) -x^(1/2) - x+30
+
+ggplot(data = data.frame(x = 0), mapping = aes(x = x))+ stat_function(fun = fun.1) + xlim(0,5)+ labs(y="Cantidad del bien", x = "Ingreso")+ ggtitle("Bien normal")+ theme(text = element_text(size=20), panel.background = element_rect(fill = "lightblue"))
+
+ggplot(data = data.frame(x = 0), mapping = aes(x = x))+ stat_function(fun = fun.2) + xlim(0,5)+ labs(y="Cantidad del bien", x = "Ingreso")+ ggtitle("Bien inferior")+ theme(text = element_text(size=20), panel.background = element_rect(fill = "lightblue"))
+
+
+```
+
+---
+
+# Recapitulemos
+
+```{r, message=FALSE, warning=FALSE, out.width = "50%"}
+
+fun.3 <- function(x) x^(1/4) - .01*x
+fun.4 <- function(x)  x^2 + x
+
+ggplot(data = data.frame(x = 0), mapping = aes(x = x))+ stat_function(fun = fun.3) + xlim(0,5)+ labs(y="Cantidad del bien", x = "Ingreso")+ ggtitle("Necesidad")+ theme(text = element_text(size=20), panel.background = element_rect(fill = "lightblue"))
+
+ggplot(data = data.frame(x = 0), mapping = aes(x = x))+ stat_function(fun = fun.4) + xlim(0,5)+ labs(y="Cantidad del bien", x = "Log(Ingreso)")+ ggtitle("Lujo")+ theme(text = element_text(size=20), panel.background = element_rect(fill = "lightblue"))
+
+
+```
+
+---
+
+# Recapitulemos
+
+--
+
+Si realizamos una transformación de mis variables podemos obtener la siguiente gráfica (recordemos el efecto que tienen las transformaciones logaritmicas):
+
+```{r, message=FALSE, warning=FALSE, out.width = "50%", fig.align='center'}
+fun.5 <- function(x)  .1*x
+
+ggplot(data = data.frame(x = 0), mapping = aes(x = x))+ stat_function(fun = fun.5) + xlim(0,5)+ labs(y="Proporción de gasto del bien", x = "Log(Ingreso)")+ ggtitle("Curva de engel")+ theme(text = element_text(size=20), panel.background = element_rect(fill = "lightblue"))
+
+
+```
+
+
+---
+# Echemos un vistazo a los datos (incompleta)
+
+--
+
+Banks, Blundell y Lewbel analizaron la encuesta de panel *UK Family Expenditure Survey* para cinco categorías de bienes entre 1970-1986. 
+
+--
+
+Para hacer el análisis exploratorio, usaron un modelo Working-Leser (especificación log-lineal en proporciones del gasto $w_i$) con métodos no paramétricos, donde cada $w_i$ se “deflacta” por un índice de precios.
+
+
+
+
+---
+
+# Tests (incompleta)
+
+--
+
+A simple vista, ya era evidente que para algunos bienes, las estimaciones lineales no eran las más adecuadas.
+
+--
+
+Sin embargo, realizar las pruebas era importante para cerciorarse del hallazgo.
+
+--
+
+- Prueba de rangos
+
+--
+
+- Prueba de rangos
+
+--
+
+- Estabilidad de los resultados
+
+
+
+
+
+
+
+
+
+---
+# Echemos un vistazo a nuestros datos (incompleta)
+
+-- 
+
+-whu hausman
+
+-significancia termino cuadrático
+
+-- 
+
+Los datos están gritando que las estimaciones lineales no son suficientes.
+
+
+--
+
+Parece que las elasticidades varían en diferentes niveles de ingreso
+
+---
+
+# Regresemos a la teoría del consumidor
+
+¿Qué está pasando con los supuestos?
+
+--
+
+- Hay saciabilidad local para algunos bienes
+
+--
+
+<br>
+
+- En consecuencia, no se cumple monotonía ni en utilidad ni en ingreso
+
+<br>
+
+--
+
+- Monotonía es un supesto vital para linealidad pues como implica que el agente consume en la frontera presupuestal, esto facilita establecer relaciones entre ingresos y consumos.
+
+--
+
+¿ Es un supuesto realista?
+
+--
+
+Depende el tipo de bien, en particular no es realista para necesidades y lujos.
+
+---
+
+# ¿Qué pasa en 1997 en microeconometría?
+
+--
+
+El análisis empirico existente no proveía una imagen realista de la conducta observada a través de diferentes grupos de ingreso y distintos tipos de bienes.
+
+--
+
+Abundan sistemas de demanda lineales en los que se plantean relaciones lineales entre el logaritmo del ingreso o del gasto total y el consumo.
+
+--
+
+Ejemplos:
+
+--
+
+- Linear Expenditure System
+
+- Sistemas AIDS
+
+- Price-Independent Generalized Logarithmic (PigLog)
+
+- Working-Lesser
+
+- AI
+
+- Translog
+
+--
+
+La idea de Banks, Blundell y Lewbel es modificar el planteamiento del modelo AI para contemplar la existencia del efecto cuadrático de $ln(m)$. 
+
+--
+
+Como hay que prescindir de monotonía, se necesita ser muy cuidadoso a la hora de plantear los modelos.
+
+---
+# Reto: generalización de AI = QUAIDS
+
+--
+
+Del planteamiento PIG-LOG obtenemos demandas de la siguiente forma:
+
+--
+$$w_i=A_i(p)+B_i(p)*ln(x)+ C_i(p)*g(x)$$
+
+--
+
+para i= 1,..,N bienes donde p es el vector de N-precios.
+
+--
+
+donde
+
+$$x=\frac{m}{a(p)}; A_i(p);B_i(p);C_i(p) \text{ y }g(x) \text{ son funcciones diferenciables }$$
+
+--
+
+La demanda del bien i depende linealmente de ln(x) y de una función g(m).
+
+(que puede ser constante o dependeder de otros términos)
+
+---
+# Reto: generalización de AI = QUAIDS
+
+--
+
+¿Cómo podemos adecuar las demandas para que contemplen un termino cuadrático y a la vez sean consistentes con la teoría del consumidor?
+
+--
+<br>
+
+$$w_i=A_i(p)+B_i(p)*ln(x)+ C_i(p)*g(x)$$
+<br>
+
+--
+
+En sistemas lineales solo se aprovechan la parte A y B, por lo que el rango del sistema, equivalente al rango de la matriz de coeficientes de la matriz de engel $[A_i(p),B_i(p)]$. es de 2.
+
+<br>
+
+Sin embargo, nos gustaría  tener más términos para poder realizar estimaciones más precisas.
+
+---
+# ¿Cuantos términos podemos agregar?
+
+--
+
+!Alerta!
+
+--
+
+De acuerdo a la teoría economómica (Gorman) y a las observaciones empíricas, el rango máximo posible en un sistema de demandas es 3.
+
+--
+
+Más términos no te están aportando mucho a la explicación. 
+
+--
+
+La unica manera de transformar el sistema a uno de rango 3 es si la función C se relaciona con una ln(m) y eso es posible solo si $g(x)=ln(x)^2$.
+
+--
+
+En este caso el rango se expande y coincide con el rango de coeficientes de la matriz de engel con columnas $[A_i(p),B_i(p), C_i(p)]$.
+
+---
+
+# Teorema 1:
+
+--
+
+Todas los sistemas de demanda derivados de la ecuación
+
+$$w_i=A_i(p)+B_i(p)*ln(x)+ C_i(p)*g(x)$$
+
+satisfacen homogenidad y simetría, por lo que son consistentes con la teoría del consumidor, y además deben encontrarse en alguna de las siguientes dos situaciones:
+
+--
+
+- que el sistema de demandas agregadas tenga un termino C que dependa de los demás términos:
+
+--
+
+$$C_i(p)=d(p)B_i(p)$$
+--
+
+En este caso, el radio entre el coeficiente de $(ln(x))^2$ y $ln(x)$ es el mismo para todos los bienes lo cual implicaría que el sistema fuera lineal.
+
+--
+
+- que la función de utilidad indirecta cuente con un termino adicional $\lambda$:
+
+--
+
+$$ln(V)=\{[\frac{ln(m)-ln(a(p))}{b(p)}]^{-1}+\lambda(p)\}^{-1}$$
+
+--
+
+Donde el primer termino viene de la especificación PIGLOG lineal y el $\lambda$ es una función diferenciable, homogenea grado cero de p. (Notemos que si dicho lambda no dependediera de precios pues sería una constante y regresariamos al caso lineal).
+
+---
+
+# Finalmente
+
+--
+
+Por la identidad de roy obtenemos las proporciones de gasto dadas por:
+
+--
+$$w_i=\frac{\partial ln (a(p))}{\partial ln(p_i)}+\frac{\partial ln (b(p))}{\partial ln(p_i)}ln(x)+\frac{\partial \lambda}{\partial ln(p_i)}\frac{1}{b(p)}ln(x)^2$$
+
+--
+
+que corresponden a la especificación con A, B y C y son cuadráticas cuando $ln(x)=ln(m)-ln(a(p))$.
+
+--
+
+<br>
+
+En resumen, debido a que tener un rango 3 obliga a que $g(x)=(ln(x))^2$ las proporciones de gasto son cuadráticas en $ln(x)=ln(m)-ln(ap)$ y, en consecuencia, son cuadráticas en m misma.
+
+--
+
+Ahora procedemos a estimar el sistema de demandas generalizado.
+
+
+---
+
+# Estimación
+
+--
+
+Recordemos que el modelo AI se estima con:
+
+--
+
+$$ln(V)=\frac{ln(m)-ln(a(p))}{b(p)}$$
+ 
+--
+
+donde
+ 
+ $$ln (a(p))=\alpha_0+\sum_{i=1}^n\alpha_i*ln(p_i)+\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n \gamma_{ij}ln(p_i)*ln(p_j)$$
+
+--
+ y b(p) que es el *price agregattor*.
+ 
+ $$b(p)=\prod_{i = 1}^{n}p_i^{\beta_i}$$
+
+Este modelo es popular porqué cuenta con proporciones de gasto condicionadas a $a(p)$ lineales en $ln(p)$ y $ln(x)$. 
+
+--
+
+Sin embargo, para aprovechar los términos cuadráticos tenemos que replantearlo de la siguiente manera.
+
+---
+
+# QUAIDS
+
+--
+Definimos nuestra función de utilidad indirecta ahora con la función $\lambda(p)$ dentro
+
+$$(1)...ln(V)=\{[\frac{ln(m)-ln(a(p))}{b(p)}]^{-1}+\lambda(p)\}^{-1}$$
+
+--
+donde
+
+.pull-left[
+$$(2)...\lambda(p)=\sum_{i=1}^n\lambda_i*ln(p_i))$$]
+.pull-right[
+$$(3)...\sum_{i=1}\lambda_i=0$$]
+
+--
+<br>
+<br>
+y además
+ 
+$$(4)...ln (a(p))=\alpha_0+\sum_{i=1}^n\alpha_i*ln(p_i)+\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n \gamma_{ij}ln(p_i)*ln(p_j)$$
+
+--
+ y b(p), que es el *price agregattor*:
+ 
+ $$(5)...b(p)=\prod_{i = 1}^{n}p_i^{\beta_i}$$
+---
+#QUAIDS
+
+--
+
+finalmente, la demanda: 
+
+--
+
+$$w_i=\frac{\partial ln (a(p))}{\partial ln(p_i)}+\frac{\partial ln (b(p))}{\partial ln(p_i)}ln(x)+\frac{\partial \lambda}{\partial ln(p_i)}\frac{1}{b(p)}ln(x)^2$$
+
+--
+
+toma la siguiente forma:
+
+--
+
+$$w_i=\alpha_i+\sum_{j=1}^n \gamma_{ij}ln(p_i)+\beta_iln[\frac{m}{a(p)}]+\frac{\lambda_i}{b(p)}\{ln[\frac{m}{a(p)}]\}^2$$
+
+---
+# Recapitulación
+
+
+
+---
+# Elasticidades ingreso QUAIDS
+
+--
+
+Las elasticidades de este sistema tienen la siguiente estructura:
+
+--
+
+$$\mu_i=\frac{\partial w_i}{\partial ln(m)}=\beta_i+\frac{2\lambda_i}{b(p)}\{ln[\frac{m}{a(p)}]\}$$
+
+--
+
+$$\mu_{ij}=\frac{\partial w_i}{\partial ln(p_j)}=\gamma_{ij}-\mu_i(\alpha_j+\sum_{k}ln(P_k)-\frac{\lambda_i\beta_j}{b(p)}\{ln[\frac{m}{a(p)}]\}^2$$
+
+--
+
+$$e_i=\frac{\mu_i}{w_i}+1$$
+
+<br>
+--
+
+cuando el termino cuadrático está activado
+
+$$\lambda<0;\beta>0$$
+
+--
+
+Esto va a hacer que $e$ sea mas grande que uno en niveles bajo de gasto (relativos) pero conforme este  aumenta, $e$ se hace menor a 1.
+
+--
+
+Si esto ocurre a un nivel temprano en el log(gasto), los bienes son lujos; si ocurre en un nivel mayor de log (gasto), los bienes son necesiades.
+
+---
+
+# Elasticidades ingreso QUAIDS
+
+--
+
+Las elasticidades, empíricamente, no siempre son constantes entre los diferentes grupos de ingreso: la forma funcional flexible que proponen Banks, Blundell y Lewbel permite que las $\mu_i$ sean diferentes en hogares con diferentes ingresos. 
+
+--
+
+Recordemos que es muy sensato pensar que la elasticidad ingreso suele variar por características demográficas e ingreso, por ejemplo: entre hogares rurales, urbanos, ricos o pobres.
+
+
+---
+
+# Elasticidades compensadas (incompleta)
+
+--
+
+Las elasticidades compensadas de un sistema QUAIDS toman la siguiente forma:
+
+--
+
+Elasticidades compensadas
+$$e_{ij}^c=e_{ij}^u+e_iw_j$$
+--
+
+- Miden solo el efecto sustitución.
+
+--
+
+- En este caso, siempre son negativa (sobre si misma).
+
+--
+
+- Se utilizan para evaluar simetría y negatividad.
+
+---
+
+# Efectos precio e ingreso relativos (incompleta)
+
+
+
+
+---
+# Resultado de etimaciones (incompleta)
+
+
+
+---
+# Medidas de Bienestar (incompleta)
+
+---
+# Conclusión (incompleta)
+
+--
+
+¿Qué implicaciones tuvo el trabajo de Banks, Blundell y Lewbel?
+
+--
+
+Se puede satisfacer resolver la tensión entre una buena estimación y consistencia con la teoría económica si:
+
+--
+
++ Los términos no lineales son solo para algunos bienes.
+
+--
+
++ Los términos no lineales son, como máximo, cuadraticos en log(income) de orden 3.
+
+--
+
+De esta manera, los términos cuadráticos permiten identificar necesidades y lujos; realizar estimaciones más acertadas y en consecuencia, estimar medidas de bienestar más realistas.
+
+---
+
+# EXTRA
+
+AI de rango 3
+ Se imponen condicines de regularidad sin ser rer rechazadas estadisticamente.
+
+duda: regularity contraints involving inequalitites cannot hold globallly, because our system allos some engels curves to be working leser, because at sufficient  high expenditure levels a budget share that is linear must go outside the permitted zero to one range.
+
+Si en AI los coeficientes eran constantes, ahora no.
+
+--
+
+
+# EXTRA
+
+--
+* Proponen agregar un término cuadrático en el logaritmo del gasto en las ecuaciones de budget share, sin romper consistencia con teoría del cons
+---
+
+Accordingly, a demand system is deemed to be regular if it satisfies the restrictions imposed by the paradigm of rational consumer choice. In the context of Marshallian demand systems, this means the demand systems expressing quantities demanded as functions of expenditure and prices satisfy the properties of nonnegativity, homogeneity, Engel aggregation, Cournot aggregation, and the symmetry and negative semi-definiteness of the Slutsky matrix (Deaton and Muellbauer 1980a).
+
+without satisfaction of both curvature and monotonicity, the second-order conditions for optimizing behaviour fail, and duality theory fails.
+
+They also exhibit a clear and valid homothetic asymptotic behaviour, as income approaches infinity.
+
+
+
+
+
