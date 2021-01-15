@@ -1,5 +1,5 @@
 En este repositorio se elabora un ejemplo de una presentación elaborada con markdown con el paquete sharingan. El tema son las curvas cuadráticas de engel.
 
-quadratic_engel_curves.Rmd<- archivo markdown que elabora la presentación
+quadratic_engel_curves<- carpeta con archivo markdown y archivos auxiliares que elaboran la presentación
 
 link de la presentación: https://rpubs.com/marcoyel21/682573
